@@ -6,6 +6,7 @@ describe Oystercard do
   subject(:card) { described_class.new }
   let(:max_balance) { Oystercard::MAX_BALANCE }
   let(:min_fare) { Oystercard::MIN_FARE }
+  let(:station) { double :station }
 
   describe '#initialize' do
     it 'initialized with balance of 0' do
@@ -32,13 +33,19 @@ describe Oystercard do
   describe '#touch_in' do
     it 'sets the card to be in journey' do
       card.top_up(min_fare * 2)
-      card.touch_in
+      card.touch_in(station)
       expect(card).to be_in_journey
     end
 
     it 'raises an error when balance is below #{min_fare}' do
       message = 'Insufficient funds to travel.'
-      expect { card.touch_in }.to raise_error message
+      expect { card.touch_in(station) }.to raise_error message
+    end
+
+    it 'records the entry station on touch in' do
+      card.top_up(10)
+      card.touch_in(station)
+      expect(card.entry_station).to eq station
     end
   end
 
@@ -50,7 +57,7 @@ describe Oystercard do
 
     it 'deducts minimum fare from balance' do
       card.top_up(10)
-      card.touch_in
+      card.touch_in(station)
       expect { card.touch_out }.to change { card.balance }.by -min_fare
     end
   end
