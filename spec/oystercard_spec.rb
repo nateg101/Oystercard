@@ -60,5 +60,12 @@ describe Oystercard do
       card.touch_in(station)
       expect { card.touch_out }.to change { card.balance }.by -min_fare
     end
+
+    it 'forgets entry station on touch out' do
+    card.top_up(10)
+    card.touch_in(station)
+    card.touch_out
+    expect(card.entry_station).to eq nil
+    end
   end
 end
