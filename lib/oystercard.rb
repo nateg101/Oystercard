@@ -36,10 +36,6 @@ class Oystercard
 
   private
 
-  def make_journey(station)
-    Journey.new(@entry_station,station)
-  end
-
   def deduct(amount)
     self.balance -= amount
   end

@@ -41,12 +41,7 @@ describe Oystercard do
       expect { card.touch_in(station) }.to raise_error message
     end
 
-    it 'records the entry station on touch in' do
-      card.top_up(10)
-      card.touch_in(station)
-      expect(card.entry_station).to eq station
-    end
-  end
+   end
 
   describe '#touch_out' do
     it 'sets the card to be not in journey' do
@@ -69,11 +64,5 @@ describe Oystercard do
       expect(array[0].class).to eq Journey
     end
 
-    it 'forgets entry station on touch out' do
-    card.top_up(10)
-    card.touch_in(station)
-    card.touch_out(station)
-    expect(card.entry_station).to eq nil
-    end
   end
 end
