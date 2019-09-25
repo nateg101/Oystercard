@@ -4,7 +4,7 @@ require_relative "journey"
 
 class Oystercard
   attr_accessor :balance
-  attr_reader :entry_station, :exit_station, :log
+  attr_reader :log
 
   MAX_BALANCE = 90
   MIN_BALANCE= 1 # min_fare would be equivalent to min_balance
@@ -16,24 +16,21 @@ class Oystercard
 
   def top_up(amount)
     raise "Maximum balance is #{MAX_BALANCE}." if over_maximum?(amount)
-
     self.balance += amount
   end
 
   def touch_in(station)
     raise 'Insufficient funds to travel.' if insufficient_balance?
-    @entry_station = station
     @log.start(station)
   end
 
   def touch_out(station)
     @log.finish(station)
     deduct( (@log.journeys.last).fare )
-    @entry_station = nil
   end
 
   def in_journey?
-    return true if entry_station
+    return true if @log.entry_station
     false
   end
 
