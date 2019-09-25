@@ -9,7 +9,7 @@ The requirement was to take the below user stories and work through the steps pr
 
 * I write code that is easy to change.
 * I can test-drive my code.
-*I can build with objects.
+* I can build with objects.
 
 #### User Stories
 
