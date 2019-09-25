@@ -5,7 +5,7 @@ describe Oystercard do
   subject(:card) { described_class.new }
   let(:max_balance) { Oystercard::MAX_BALANCE }
   let(:min_fare) { Oystercard::MIN_BALANCE}
-  let(:station) { double :station }
+  let(:station) { double :station, zone: 1 }
 
   describe '#initialize' do
     it 'initialized with balance of 0' do
@@ -60,7 +60,7 @@ describe Oystercard do
       card.touch_in(station)
       card.touch_out(station)
       log = subject.log
-      array = log.journeys
+      array = log.journey_history
       expect(array[0].class).to eq Journey
     end
 

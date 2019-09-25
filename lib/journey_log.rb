@@ -1,6 +1,6 @@
 class JourneyLog
 
-  attr_reader :journeys, :entry_station
+  attr_reader :entry_station
 
   def initialize
     @journeys = []
@@ -13,6 +13,10 @@ class JourneyLog
   def finish(station)
     @journeys << current_journey(@entry_station, station)
     @entry_station = nil
+  end
+
+  def journey_history
+    @journeys.dup
   end
 
   private

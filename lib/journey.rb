@@ -10,7 +10,14 @@ PENALTY_FARE = 6
 
   def fare
     return PENALTY_FARE if (@entry_station==nil)||(@exit_station==nil)
-    MIN_FARE
+    calculate_fare
+  end
+
+  private
+
+  def calculate_fare
+    zone_difference = (@entry_station.zone - @exit_station.zone).abs
+    return zone_difference+MIN_FARE
   end
 
 end
