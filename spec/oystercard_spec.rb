@@ -1,11 +1,10 @@
 # frozen_string_literal: true
-
 require 'oystercard'
 
 describe Oystercard do
   subject(:card) { described_class.new }
   let(:max_balance) { Oystercard::MAX_BALANCE }
-  let(:min_fare) { Oystercard::MIN_FARE }
+  let(:min_fare) { Oystercard::MIN_BALANCE}
   let(:station) { double :station }
 
   describe '#initialize' do
@@ -66,7 +65,7 @@ describe Oystercard do
       card.touch_in(station)
       card.touch_out(station)
       array = card.journeys
-      expect(array[0].class).to eq Hash
+      expect(array[0].class).to eq Journey
     end
 
     it 'forgets entry station on touch out' do
