@@ -64,7 +64,8 @@ describe Oystercard do
       card.top_up(10)
       card.touch_in(station)
       card.touch_out(station)
-      array = card.journeys
+      log = subject.log
+      array = log.journeys
       expect(array[0].class).to eq Journey
     end
 

@@ -1,17 +1,17 @@
 # frozen_string_literal: true
-
+require_relative "journey_log"
 require_relative "journey"
 
 class Oystercard
   attr_accessor :balance
-  attr_reader :entry_station, :exit_station, :journeys
+  attr_reader :entry_station, :exit_station, :log
 
   MAX_BALANCE = 90
   MIN_BALANCE= 1 # min_fare would be equivalent to min_balance
 
   def initialize
     @balance = 0
-    @journeys = []
+    @log = JourneyLog.new
   end
 
   def top_up(amount)
@@ -23,11 +23,12 @@ class Oystercard
   def touch_in(station)
     raise 'Insufficient funds to travel.' if insufficient_balance?
     @entry_station = station
+    @log.start(station)
   end
 
   def touch_out(station)
-    @journeys << make_journey(station)
-    deduct(make_journey(station).fare)
+    @log.finish(station)
+    deduct( (@log.journeys.last).fare )
     @entry_station = nil
   end
 
