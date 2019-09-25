@@ -7,7 +7,7 @@ class Oystercard
   attr_reader :log
 
   MAX_BALANCE = 90
-  MIN_BALANCE= 1 # min_fare would be equivalent to min_balance
+  MIN_BALANCE= 1
 
   def initialize
     @balance = 0

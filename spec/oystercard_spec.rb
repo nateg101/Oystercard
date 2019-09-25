@@ -44,25 +44,28 @@ describe Oystercard do
    end
 
   describe '#touch_out' do
-    it 'sets the card to be not in journey' do
-      card.touch_out(station)
-      expect(card).not_to be_in_journey
-    end
 
-    it 'deducts minimum fare from balance' do
-      card.top_up(10)
+    before do
+      card.top_up(min_fare * 2)
       card.touch_in(station)
-      expect { card.touch_out(station) }.to change { card.balance }.by -min_fare
     end
 
-    it 'records a journey on touch out' do
-      card.top_up(10)
-      card.touch_in(station)
-      card.touch_out(station)
-      log = subject.log
-      array = log.journey_history
-      expect(array[0].class).to eq Journey
-    end
+      it 'sets the card to be not in journey' do
+        card.touch_out(station)
+        expect(card).not_to be_in_journey
+      end
 
-  end
+      it 'deducts minimum fare from balance' do
+        expect { card.touch_out(station) }.to change { card.balance }.by -min_fare
+      end
+
+      it 'records a journey on touch out' do
+        card.top_up(10)
+        card.touch_in(station)
+        card.touch_out(station)
+        log = subject.log
+        array = log.journey_history
+        expect(array[0].class).to eq Journey
+      end
+    end
 end
