@@ -51,27 +51,28 @@ describe Oystercard do
 
   describe '#touch_out' do
     it 'sets the card to be not in journey' do
-      card.touch_out
+      card.touch_out(station)
       expect(card).not_to be_in_journey
     end
 
     it 'deducts minimum fare from balance' do
       card.top_up(10)
       card.touch_in(station)
-      expect { card.touch_out }.to change { card.balance }.by -min_fare
+      expect { card.touch_out(station) }.to change { card.balance }.by -min_fare
     end
 
-    it 'records exit station on touch out' do
+    it 'records a journey on touch out' do
       card.top_up(10)
       card.touch_in(station)
       card.touch_out(station)
-      expect(card.station).to eq exit_station
+      array = card.journeys
+      expect(array[0].class).to eq Hash
     end
 
     it 'forgets entry station on touch out' do
     card.top_up(10)
     card.touch_in(station)
-    card.touch_out
+    card.touch_out(station)
     expect(card.entry_station).to eq nil
     end
   end
